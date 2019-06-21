@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.imcu.mapper.WeiboVoMapper">
+
+        <resultMap id="WeiboResultMap" type="weibovo">
+            <id column="weibo_id" property="weiboId" jdbcType="INTEGER" />
+            <result column="user_id" property="userId" jdbcType="INTEGER" />
+            <result column="post_time" property="postTime" jdbcType="TIMESTAMP" />
+            <result column="content" property="content" jdbcType="VARCHAR" />
+            <result column="pic1" property="pic1" jdbcType="VARCHAR" />
+            <result column="pic2" property="pic2" jdbcType="VARCHAR" />
+            <result column="pic3" property="pic3" jdbcType="VARCHAR" />
+            <result column="pic4" property="pic4" jdbcType="VARCHAR" />
+            <result column="pic5" property="pic5" jdbcType="VARCHAR" />
+            <result column="pic6" property="pic6" jdbcType="VARCHAR" />
+            <result column="pic7" property="pic7" jdbcType="VARCHAR" />
+            <result column="pic8" property="pic8" jdbcType="VARCHAR" />
+            <result column="pic9" property="pic9" jdbcType="VARCHAR" />
+            <result column="original" property="original" jdbcType="INTEGER" />
+            <result column="repost_id" property="repostId" jdbcType="INTEGER" />
+
+            <association property="user" javaType="user">
+                <id column="user_id" property="userId" jdbcType="INTEGER" />
+                <result column="username" property="username" jdbcType="VARCHAR" />
+                <result column="password" property="password" jdbcType="VARCHAR" />
+                <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+                <result column="face" property="face" jdbcType="VARCHAR" />
+                <result column="sex" property="sex" jdbcType="INTEGER" />
+                <result column="bir" property="bir" jdbcType="DATE" />
+                <result column="province" property="province" jdbcType="VARCHAR" />
+                <result column="city" property="city" jdbcType="VARCHAR" />
+            </association>
+        </resultMap>
+    <select id="queryTimeLine" parameterType="integer" resultMap="WeiboResultMap">
+        SELECT * FROM weibo INNER JOIN user ON weibo.user_id = user.user_id  where weibo.user_id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY weibo.post_time desc
+    </select>
+
+    <select id="queryAll" resultMap="WeiboResultMap">
+        SELECT * FROM weibo INNER JOIN user ON weibo.user_id = user.user_id ORDER BY weibo.post_time desc
+    </select>
+
+    <select id="queryById" resultMap="WeiboResultMap">
+        SELECT * FROM weibo INNER JOIN user ON weibo.user_id = user.user_id  where weibo.weibo_id = #{weiboId}
+    </select>
+
+    <select id="beforeTimeLine" parameterType="integer" resultMap="WeiboResultMap">
+        SELECT * FROM weibo INNER JOIN user ON weibo.user_id = user.user_id  where weibo.user_id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and weibo.weibo_id &lt; #{before}
+        ORDER BY weibo.post_time desc
+    </select>
+
+    <select id="afterTimeLine" parameterType="integer" resultMap="WeiboResultMap">
+        SELECT * FROM weibo INNER JOIN user ON weibo.user_id = user.user_id  where weibo.user_id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and weibo.weibo_id &gt; #{after}
+        ORDER BY weibo.post_time desc
+    </select>
+
+    <select id="queryFollowIds" parameterType="int" resultType="integer">
+        select follow_id from relation where user_id = #{userId};
+    </select>
+    <insert id="postWeibo" parameterType="weibovo" keyProperty="weiboId" useGeneratedKeys="true">
+        insert into weibo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="postTime != null">
+                post_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="pic1 != null">
+                pic1,
+            </if>
+            <if test="pic2 != null">
+                pic2,
+            </if>
+            <if test="pic3 != null">
+                pic3,
+            </if>
+            <if test="pic4 != null">
+                pic4,
+            </if>
+            <if test="pic5 != null">
+                pic5,
+            </if>
+            <if test="pic6 != null">
+                pic6,
+            </if>
+            <if test="pic7 != null">
+                pic7,
+            </if>
+            <if test="pic8 != null">
+                pic8,
+            </if>
+            <if test="pic9 != null">
+                pic9,
+            </if>
+            original,
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="postTime != null">
+                #{postTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="pic1 != null">
+                #{pic1,jdbcType=VARCHAR},
+            </if>
+            <if test="pic2 != null">
+                #{pic2,jdbcType=VARCHAR},
+            </if>
+            <if test="pic3 != null">
+                #{pic3,jdbcType=VARCHAR},
+            </if>
+            <if test="pic4 != null">
+                #{pic4,jdbcType=VARCHAR},
+            </if>
+            <if test="pic5 != null">
+                #{pic5,jdbcType=VARCHAR},
+            </if>
+            <if test="pic6 != null">
+                #{pic6,jdbcType=VARCHAR},
+            </if>
+            <if test="pic7 != null">
+                #{pic7,jdbcType=VARCHAR},
+            </if>
+            <if test="pic8 != null">
+                #{pic8,jdbcType=VARCHAR},
+            </if>
+            <if test="pic9 != null">
+                #{pic9,jdbcType=VARCHAR},
+            </if>
+            1,
+        </trim>
+    </insert>
+</mapper>

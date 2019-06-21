@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.imcu.mapper.RelationMapper">
+    <resultMap id="relationMap" type="relation">
+        <id column="relation_id" property="relationId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="follow_id" property="followId" jdbcType="INTEGER" />
+        <result column="state" property="state" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="queryRelation" resultMap="relationMap" parameterType="relation">
+            select *from relation where user_id = #{userId} and follow_id = #{followId}
+    </select>
+
+    <insert id="insertRelation" parameterType="relation" >
+        insert into relation(user_id,follow_id,state) values (#{userId},#{followId},#{state})
+    </insert>
+
+    <delete id="deleteRelation" parameterType="relation">
+        delete from relation where user_id = #{userId} and follow_id = #{followId}
+    </delete>
+
+    <select id="isInRelation" parameterType="relation" resultType="int">
+        select Count(relation_id) from relation where user_id = #{userId} and follow_id = #{followId}
+    </select>
+
+    <select id="queryFollowIds" parameterType="int" resultType="integer">
+        select follow_id from relation where user_id = #{userId};
+    </select>
+
+    <select id="queryFanIds" parameterType="int" resultType="integer">
+        select user_id  from relation where follow_id = #{userId};
+    </select>
+</mapper>

@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: site.imcu.mapper.WeiboVoMapperTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.2 s <<< FAILURE! - in site.imcu.mapper.WeiboVoMapperTest
+queryFollowIds(site.imcu.mapper.WeiboVoMapperTest)  Time elapsed: 1.369 s  <<< ERROR!
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at site.imcu.mapper.WeiboVoMapperTest.queryFollowIds(WeiboVoMapperTest.java:23)
+

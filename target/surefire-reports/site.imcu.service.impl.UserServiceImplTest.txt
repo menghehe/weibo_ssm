@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: site.imcu.service.impl.UserServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in site.imcu.service.impl.UserServiceImplTest

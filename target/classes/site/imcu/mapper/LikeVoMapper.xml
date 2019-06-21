@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.imcu.mapper.LikeVoMapper">
+
+    <insert id="insertLike" parameterType="like" >
+        insert into likes(user_id,weibo_id,like_time) values (#{userId},#{weiboId},#{likeTime})
+    </insert>
+
+    <delete id="deleteLike" parameterType="like">
+        delete from likes where user_id = #{userId} and weibo_id = #{weiboId}
+    </delete>
+
+    <select id="isLiked" parameterType="like" resultType="int">
+        select Count(likes_id) from likes where user_id = #{userId} and weibo_id = #{weiboId}
+    </select>
+
+    <select id="countLike" parameterType="int" resultType="int">
+        select Count(likes_id) from likes where weibo_id = #{weiboId}
+    </select>
+</mapper>
